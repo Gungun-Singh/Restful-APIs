@@ -145,6 +145,45 @@ app.delete("/delete/:id",(req,res)=>{
 
 
 
+//GET ALL MOVIES + FILTER + SEARCH + SORT
+
+app.get("/movies",(req,res)=>{
+let results = movies;
+
+//FILTER : GENRE
+if(req.query.genre){
+    results = results.filter(
+        (item) => item.genre.toLowerCase() === req.query.genre.toLowerCase()
+    );
+
+}
+
+
+//FILTER : MIN RATING
+if(req.query.minrating){
+    results = results.filter(
+        (item) => item.rating >= req.query.minrating
+    );
+}
+
+
+//SORT BY RATING
+if(req.query.sort === "rating"){
+    results = results.sort((a,b) => a.rating - b.rating);
+}
+
+//SORT BY YEAR
+if(req.query.sort === "year"){
+    result = results.sort((a,b)=> a.year - b.year);
+}
+
+
+    res.status(200).json({
+        results
+    })
+})
+
+
 
 //SERVER
 const port = 3000;
